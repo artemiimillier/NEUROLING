@@ -54,8 +54,10 @@ async function boot() {
     await startCamera(video);
     ui.setStatus('Камера готова. Загружаю модель жестов…');
 
-    // 2) TTS (browser default, ElevenLabs if key present).
+    // 2) TTS (kie.ai ElevenLabs via local proxy → ElevenLabs key → browser).
     tts = createTTS(CONFIG);
+    // Head-start: pre-generate the first phrase's words while the gesture model loads.
+    try { if (tts.prewarm && PHRASES[0]) tts.prewarm(PHRASES[0].split(' ')); } catch (_) { /* ignore */ }
 
     // 3) Speech matcher — highlights spoken words, drives notifyWordSpoken.
     speech = createSpeechMatcher({
@@ -76,6 +78,13 @@ async function boot() {
         try { ui.renderState(state); } catch (e) { console.warn('[NEUROLING] renderState:', e); }
       },
       onReveal: (word, i) => {
+        try {
+          // When a new phrase opens (first word), pre-generate all its words so playback stays instant.
+          if (tts && tts.prewarm && i === 0 && trainer) {
+            const st = trainer.getState();
+            if (Array.isArray(st.words)) tts.prewarm(st.words);
+          }
+        } catch (e) { console.warn('[NEUROLING] tts.prewarm:', e); }
         try {
           if (tts) tts.speak(word);
         } catch (e) { console.warn('[NEUROLING] tts.speak:', e); }

@@ -9,6 +9,9 @@ export const CONFIG = {
   strictHand: true,   // требовать правильную руку (кнопка Swap/Toggle в UI меняет на лету)
   mirror: true,       // зеркалить видео и корректировать руку
   tts: { rate: 0.9, pitch: 1.0, preferLang: 'en-US' },
+  // kie.ai bridge — premium ElevenLabs voice via the local /api/tts proxy (key lives server-side).
+  kie: { endpoint: '/api/tts', enabled: true, voice: 'EkK5I93UQWFDigLMpZcX', speed: 0.95 },
+  // Optional direct ElevenLabs (used only if you paste a key on the start screen).
   elevenLabs: { apiKey: '', voiceId: '21m00Tcm4TlvDq8ikWAM', model: 'eleven_turbo_v2_5' },
 };
 

@@ -1,0 +1,11 @@
+# Never upload secrets to Vercel
+.env
+.env.*
+!.env.example
+
+# Local / VCS
+.git
+.DS_Store
+
+# Docs not needed at runtime
+план
