@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>NEUROLING — Gesture · Voice · English</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== ICON SPRITE ===== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="gem-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#b39bff" />
+        <stop offset="50%" stop-color="#ff9ec9" />
+        <stop offset="100%" stop-color="#79e0a6" />
+      </linearGradient>
+    </defs>
+    <symbol id="i-mark" viewBox="0 0 24 24">
+      <path d="M12 2L21 7v10l-9 5-9-5V7l9-5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M12 2v20M3 7l9 5 9-5" fill="none" stroke="currentColor" stroke-width="1.1" opacity="0.55"/>
+    </symbol>
+    <symbol id="i-gem" viewBox="0 0 24 24">
+      <path d="M12 2L21 7v10l-9 5-9-5V7l9-5z" fill="url(#gem-grad)" opacity="0.92"/>
+      <path d="M12 2v20M3 7l9 5 9-5" fill="none" stroke="#0a0c12" stroke-width="1" opacity="0.5"/>
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+    <symbol id="i-hand" viewBox="0 0 24 24"><path d="M7 11V6a1.5 1.5 0 013 0v4m0 0V4.5a1.5 1.5 0 013 0V10m0 0V6a1.5 1.5 0 013 0v6.5c0 4-2.5 7-6.5 7S7 17 7 14.5V12l-2-2a1.4 1.4 0 012-2l1 1" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-voice" viewBox="0 0 24 24"><path d="M4 10v4M8 6v12M12 3v18M16 7v10M20 10v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5M3 17l9 5 9-5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cross" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  </svg>
+
+  <!-- ===== BACKGROUND ===== -->
+  <div class="bg-aurora" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-noise" aria-hidden="true"></div>
+
+  <div id="app">
+
+    <!-- =========================================================
+         START OVERLAY  ·  landing hero
+         ========================================================= -->
+    <div id="start-overlay">
+      <div class="landing">
+
+        <header class="nav">
+          <div class="logo">
+            <svg class="logo-mark"><use href="#i-mark"/></svg>
+            <span class="logo-word">Neuroling</span>
+          </div>
+          <div class="nav-tag mono">[ GESTURE · VOICE · ENGLISH ]</div>
+        </header>
+
+        <section class="hero">
+          <div class="eyebrow mono">A NEURO-TRAINER FOR REAL FLUENCY</div>
+          <h1 class="hero-title">Speak English with<br><span class="muted">your hands &amp; voice</span></h1>
+          <p class="hero-sub">Тренажёр считывает твои <b>жесты</b> и <b>речь</b> и собирает английскую
+            фразу слово за словом. Активная память и моторика вместо зубрёжки.</p>
+
+          <div class="cta-row">
+            <button id="start-btn" class="btn btn-primary" type="button">
+              <svg class="btn-ico"><use href="#i-play"/></svg>
+              <span>START TRAINING</span>
+            </button>
+            <a href="#method" class="btn btn-ghost">
+              <svg class="btn-ico"><use href="#i-arrow"/></svg>
+              <span>HOW IT WORKS</span>
+            </a>
+          </div>
+
+          <p class="cta-foot mono">From the first word to a full phrase — your English, simplified.</p>
+        </section>
+
+        <section class="trust">
+          <div class="trust-label mono">POWERED BY OPEN · FREE TECHNOLOGY</div>
+          <div class="trust-logos">
+            <span>MediaPipe</span><span>Web&nbsp;Speech</span><span>ElevenLabs</span><span>Google&nbsp;AI</span><span>WebGL</span>
+          </div>
+        </section>
+
+        <!-- comparison -->
+        <section id="method" class="compare">
+          <div class="compare-card compare-old">
+            <div class="card-tag mono">[ OLD WAY · ROTE DRILLS ]</div>
+            <div class="scatter" aria-hidden="true">
+              <span class="chip c1">📕</span><span class="chip c2">✎</span>
+              <span class="chip c3">⏱</span><span class="chip c4">😵</span>
+              <span class="chip c5">💤</span>
+            </div>
+            <h3 class="card-title">Looks easy. Forgotten by morning.</h3>
+            <div class="bad-row">
+              <span class="tag-bad"><svg><use href="#i-cross"/></svg> Без речи</span>
+              <span class="tag-bad"><svg><use href="#i-cross"/></svg> Без обратной связи</span>
+              <span class="tag-bad"><svg><use href="#i-cross"/></svg> Пассивно</span>
+            </div>
+          </div>
+
+          <div class="compare-card compare-new">
+            <div class="card-tag mono">[ NEUROLING · METHOD ]</div>
+            <div class="feature-grid">
+              <div class="feat">
+                <svg class="feat-ico"><use href="#i-hand"/></svg>
+                <div class="feat-text"><b>Gesture sync</b><span>Связь рука–глаз</span></div>
+              </div>
+              <div class="feat">
+                <svg class="feat-ico"><use href="#i-voice"/></svg>
+                <div class="feat-text"><b>Voice tracking</b><span>Реальное произношение</span></div>
+              </div>
+              <div class="grid-node"><svg class="node-gem"><use href="#i-gem"/></svg></div>
+              <div class="feat">
+                <svg class="feat-ico"><use href="#i-layers"/></svg>
+                <div class="feat-text"><b>Word by word</b><span>Прогрессивный вызов</span></div>
+              </div>
+              <div class="feat">
+                <svg class="feat-ico"><use href="#i-bolt"/></svg>
+                <div class="feat-text"><b>Live feedback</b><span>Мгновенно и наглядно</span></div>
+              </div>
+            </div>
+            <h3 class="card-title">Multi-sensory. It actually sticks.</h3>
+            <div class="good-row">
+              <span class="tag-good"><svg><use href="#i-check"/></svg> Active recall</span>
+              <span class="tag-good"><svg><use href="#i-check"/></svg> Motor memory</span>
+              <span class="tag-good"><svg><use href="#i-check"/></svg> Spoken output</span>
+            </div>
+          </div>
+        </section>
+
+        <div class="rating-pill mono">
+          <svg class="star"><use href="#i-gem"/></svg>
+          NEURO-LINGUISTIC METHOD · MULTI-SENSORY RECALL
+        </div>
+        <blockquote class="quote">“You remember what you <i>do</i> — not what you merely read.”</blockquote>
+
+        <!-- start block -->
+        <section class="start-block">
+          <div class="key-field">
+            <label for="eleven-key" class="key-label mono">ELEVENLABS API KEY · OPTIONAL</label>
+            <input id="eleven-key" type="password" autocomplete="off" spellcheck="false"
+                   placeholder="sk_…  оставь пустым для голоса браузера" />
+            <p class="key-hint">Без ключа озвучка идёт через встроенный голос браузера.</p>
+          </div>
+          <p class="overlay-foot">Открой через <code>http://localhost</code> и разреши камеру + микрофон. Рекомендуется Chrome.</p>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- =========================================================
+         TRAINING VIEW
+         ========================================================= -->
+    <main id="trainer-view">
+      <div class="trainer-grid">
+
+        <!-- LEFT · camera + gesture meter -->
+        <section class="panel cam-panel">
+          <div class="panel-head">
+            <span class="card-tag mono">[ LIVE · VISION ]</span>
+            <span id="hud-top"><span id="progress">PHRASE 01 / 10</span></span>
+          </div>
+
+          <div id="stage">
+            <div id="cam-wrap">
+              <video id="video" autoplay muted playsinline></video>
+              <canvas id="overlay-canvas"></canvas>
+              <div class="cam-corners" aria-hidden="true">
+                <span class="corner tl"></span><span class="corner tr"></span>
+                <span class="corner bl"></span><span class="corner br"></span>
+              </div>
+              <div class="cam-scan" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <div id="gesture-hud">
+            <div class="gh-top">
+              <div id="expected-cue">Ожидаю жест…</div>
+              <div id="hand-detected">Рука не найдена</div>
+            </div>
+            <div class="meter-wrap">
+              <div id="gesture-meter"><div class="meter-fill"></div></div>
+              <div id="gesture-percent">0%</div>
+            </div>
+            <div id="gesture-name">—</div>
+          </div>
+        </section>
+
+        <!-- RIGHT · phrase + controls -->
+        <section class="panel phrase-side">
+          <div class="card-tag mono">[ NEUROLING · SESSION ]</div>
+
+          <div id="phrase-panel">
+            <div id="phrase-words"></div>
+          </div>
+
+          <div id="status-line">Готов к запуску</div>
+
+          <div class="legend">
+            <div class="legend-row">
+              <span class="legend-badge odd">👍</span>
+              <span class="legend-text">Нечётное слово · палец вверх <b>левой</b> рукой</span>
+            </div>
+            <div class="legend-row">
+              <span class="legend-badge even">✊</span>
+              <span class="legend-text">Чётное слово · кулак <b>правой</b> рукой</span>
+            </div>
+          </div>
+
+          <div id="controls">
+            <button id="replay-btn" type="button">↻ Replay word</button>
+            <button id="next-btn" type="button">Next phrase →</button>
+            <button id="strict-toggle" type="button" aria-pressed="true">Strict hand · ON</button>
+            <button id="swap-btn" type="button">⇄ Swap L / R</button>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- ===== CELEBRATE ===== -->
+    <div id="celebrate" hidden>
+      <div class="celebrate-inner">
+        <svg class="celebrate-gem"><use href="#i-gem"/></svg>
+        <div class="celebrate-title">Отлично!</div>
+        <div class="celebrate-sub">Фраза собрана целиком</div>
+      </div>
+    </div>
+
+    <!-- ===== ERROR TOAST ===== -->
+    <div id="error-toast" hidden></div>
+
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
