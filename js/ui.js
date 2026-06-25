@@ -11,6 +11,8 @@
 //   bindControls({onStart,onReplay,onNext,onToggleStrict,onSwapHands,onApiKey})
 //   drawLandmarks(landmarks, videoEl): оверлей лендмарков руки на #overlay-canvas.
 
+import { PHRASE_TRANSLATIONS } from './phrases.js';
+
 export function createUI({ root, config } = {}) {
   const doc = (root && root.ownerDocument) || (typeof document !== 'undefined' ? document : null);
 
@@ -30,6 +32,7 @@ export function createUI({ root, config } = {}) {
     progress: byId('progress'),
     phrasePanel: byId('phrase-panel'),
     phraseWords: byId('phrase-words'),
+    phraseTranslation: byId('phrase-translation'),
     gestureHud: byId('gesture-hud'),
     expectedCue: byId('expected-cue'),
     gestureName: byId('gesture-name'),
@@ -104,6 +107,9 @@ export function createUI({ root, config } = {}) {
     const revealed = typeof state.revealedCount === 'number' ? state.revealedCount : 0;
     const step = typeof state.step === 'number' ? state.step : revealed;
     const spokenMask = Array.isArray(state.spokenMask) ? state.spokenMask : [];
+    const phraseIndex = typeof state.phraseIndex === 'number' ? state.phraseIndex : 0;
+    const tr = (PHRASE_TRANSLATIONS && PHRASE_TRANSLATIONS[phraseIndex]) || null;
+    const glosses = tr && Array.isArray(tr.words) ? tr.words : [];
 
     // Перестраиваем только если изменился набор слов (по количеству + тексту).
     const needRebuild =
@@ -117,12 +123,24 @@ export function createUI({ root, config } = {}) {
         span.className = 'word';
         span.dataset.i = String(i);
         span.dataset.text = w;
-        span.textContent = w;
+
+        // Всплывающий русский перевод СВЕРХ слова (показывается на hover).
+        const gloss = doc.createElement('span');
+        gloss.className = 'word-gloss';
+        gloss.textContent = glosses[i] || '';
+        span.appendChild(gloss);
+
+        // Сам видимый текст слова (отдельный узел, чтобы не стирать gloss).
+        const txt = doc.createElement('span');
+        txt.className = 'word-text';
+        txt.textContent = w;
+        span.appendChild(txt);
+
         container.appendChild(span);
       });
     }
 
-    // Обновляем классы на каждом слове.
+    // Обновляем классы и видимый текст на каждом слове.
     Array.from(container.children).forEach((node, i) => {
       const isRevealed = i < revealed;
       const isCurrent = i === step - 1;
@@ -133,14 +151,20 @@ export function createUI({ root, config } = {}) {
       node.classList.toggle('current', isCurrent && isRevealed);
       node.classList.toggle('spoken', isSpoken);
 
-      // Скрытые слова показываем плейсхолдером той же длины, раскрытые — текстом.
-      if (isRevealed) {
-        if (node.textContent !== node.dataset.text) node.textContent = node.dataset.text;
-      } else {
-        const masked = '•'.repeat(Math.max(1, (node.dataset.text || '').length));
-        if (node.textContent !== masked) node.textContent = masked;
+      const txt = node.querySelector('.word-text');
+      if (txt) {
+        // Скрытые слова показываем плейсхолдером той же длины, раскрытые — текстом.
+        if (isRevealed) {
+          if (txt.textContent !== node.dataset.text) txt.textContent = node.dataset.text;
+        } else {
+          const masked = '•'.repeat(Math.max(1, (node.dataset.text || '').length));
+          if (txt.textContent !== masked) txt.textContent = masked;
+        }
       }
     });
+
+    // Полный перевод фразы — маленьким снизу.
+    if (els.phraseTranslation) setText(els.phraseTranslation, tr ? tr.full : '');
   }
 
   // ------------------------------------------------------------------- setMeter

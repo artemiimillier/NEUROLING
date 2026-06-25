@@ -601,7 +601,10 @@ code {
 #phrase-panel {
   flex: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 18px;
   min-height: 180px;
   padding: 8px 4px;
 }
@@ -650,6 +653,67 @@ code {
   color: var(--mint);
   text-shadow: 0 0 18px rgba(124, 224, 168, 0.4);
 }
+.word { cursor: default; }
+.word-text { display: inline; }
+
+/* русский перевод слова — всплывает СВЕРХ при наведении */
+.word-gloss {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 9px);
+  transform: translateX(-50%) translateY(5px);
+  white-space: nowrap;
+  font-family: var(--sans);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
+  color: var(--violet);
+  background: #0c0e16;
+  border: 1px solid var(--line-2);
+  border-radius: 9px;
+  padding: 5px 10px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
+  z-index: 20;
+  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.85);
+}
+.word-gloss::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--line-2);
+}
+.word-gloss:empty { display: none; }
+.word:hover { color: var(--white); }
+.word:hover .word-text { text-decoration: underline dotted var(--line-2); text-underline-offset: 4px; }
+.word:hover .word-gloss { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* полный перевод фразы — маленьким снизу */
+#phrase-translation {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.45;
+  color: var(--text-mute);
+  border-top: 1px solid var(--line-soft);
+  padding-top: 13px;
+}
+#phrase-translation::before {
+  content: "RU  ";
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  color: var(--violet);
+  opacity: 0.7;
+}
+#phrase-translation:empty { display: none; }
 
 /* status */
 #status-line {

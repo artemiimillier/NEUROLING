@@ -6,3 +6,9 @@
 # OS
 .DS_Store
 .vercel
+
+# TTS cache
+.tts-cache/
+
+# Playwright MCP debug artifacts (browser test logs/snapshots)
+.playwright-mcp/

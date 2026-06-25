@@ -17,7 +17,7 @@ const CACHE_DIR = path.join(ROOT, '.tts-cache');
 
 const KIE_BASE = 'https://api.kie.ai/api/v1';
 const KIE_MODEL = 'elevenlabs/text-to-speech-multilingual-v2';
-const DEFAULT_VOICE = 'EkK5I93UQWFDigLMpZcX'; // James — clear, engaging
+const DEFAULT_VOICE = 'FGY2WhTYpPnrIDTdsKH5'; // Laura — clear, warm (not husky)
 
 // ---- load KIE key from .env (or process.env) --------------------------------
 function loadEnv() {
@@ -143,7 +143,11 @@ function serveStatic(req, res) {
   fs.readFile(filePath, (err, data) => {
     if (err) { res.writeHead(404, { 'Content-Type': 'text/plain' }); res.end('not found'); return; }
     const ext = path.extname(filePath).toLowerCase();
-    res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream' });
+    res.writeHead(200, {
+      'Content-Type': MIME[ext] || 'application/octet-stream',
+      // Never let the browser serve a stale module — always re-fetch (avoids old+new file mismatch).
+      'Cache-Control': 'no-store, no-cache, must-revalidate',
+    });
     res.end(data);
   });
 }

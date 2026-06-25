@@ -56,8 +56,8 @@ async function boot() {
 
     // 2) TTS (kie.ai ElevenLabs via local proxy → ElevenLabs key → browser).
     tts = createTTS(CONFIG);
-    // Head-start: pre-generate the first phrase's words while the gesture model loads.
-    try { if (tts.prewarm && PHRASES[0]) tts.prewarm(PHRASES[0].split(' ')); } catch (_) { /* ignore */ }
+    // Head-start: pre-generate the first phrase (whole sentence + words) while the model loads.
+    try { if (tts.prewarm && PHRASES[0]) tts.prewarm([PHRASES[0], ...PHRASES[0].split(' ')]); } catch (_) { /* ignore */ }
 
     // 3) Speech matcher — highlights spoken words, drives notifyWordSpoken.
     speech = createSpeechMatcher({
@@ -79,15 +79,18 @@ async function boot() {
       },
       onReveal: (word, i) => {
         try {
-          // When a new phrase opens (first word), pre-generate all its words so playback stays instant.
-          if (tts && tts.prewarm && i === 0 && trainer) {
-            const st = trainer.getState();
-            if (Array.isArray(st.words)) tts.prewarm(st.words);
+          const st = trainer && trainer.getState ? trainer.getState() : null;
+          const words = st && Array.isArray(st.words) ? st.words : null;
+          const full = words ? words.join(' ') : word;
+          if (i === 0) {
+            // Новая фраза: прогреваем (вся фраза + слова) и озвучиваем фразу ЦЕЛИКОМ один раз.
+            if (tts && tts.prewarm && words) tts.prewarm([full, ...words]);
+            if (tts) tts.speak(full);
+          } else {
+            // Дальше — по одному новому слову.
+            if (tts) tts.speak(word);
           }
-        } catch (e) { console.warn('[NEUROLING] tts.prewarm:', e); }
-        try {
-          if (tts) tts.speak(word);
-        } catch (e) { console.warn('[NEUROLING] tts.speak:', e); }
+        } catch (e) { console.warn('[NEUROLING] tts onReveal:', e); }
         try {
           if (speech && trainer) {
             const st = trainer.getState();

@@ -143,10 +143,10 @@
         <!-- start block -->
         <section class="start-block">
           <div class="key-field">
-            <label for="eleven-key" class="key-label mono">ELEVENLABS API KEY · OPTIONAL</label>
+            <label for="eleven-key" class="key-label mono">VOICE · POWERED BY KIE.AI · KEY OPTIONAL</label>
             <input id="eleven-key" type="password" autocomplete="off" spellcheck="false"
-                   placeholder="sk_…  оставь пустым для голоса браузера" />
-            <p class="key-hint">Без ключа озвучка идёт через встроенный голос браузера.</p>
+                   placeholder="sk_…  необязательно — голос уже подключён" />
+            <p class="key-hint">Премиум-голос ElevenLabs уже работает через kie.ai. Поле — для своего личного ключа ElevenLabs (необязательно).</p>
           </div>
           <p class="overlay-foot">Открой через <code>http://localhost</code> и разреши камеру + микрофон. Рекомендуется Chrome.</p>
         </section>
@@ -198,6 +198,7 @@
 
           <div id="phrase-panel">
             <div id="phrase-words"></div>
+            <div id="phrase-translation"></div>
           </div>
 
           <div id="status-line">Готов к запуску</div>
